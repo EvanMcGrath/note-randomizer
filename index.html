@@ -4,23 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style> 
+    section {
+      display:flex;
+      justify-content: space-evenly;
+    }
+    button {
+      display:block;
+      margin: 3rem auto 0;
+    }
+
+    .childString, .childNote { 
+      font-size: 5rem;
+    }
+  </style>
 </head>
 <body>
   <section>
-    <h2>String</h2>
-    <div class='string'>
+    <div class='container'>
+      <h2>String</h2>
+      <div class='string'>
+      </div>
     </div>
-    <div class='note'>
+    <div class='container'>
       <h2>Note</h2>
+      <div class='note'>
+      </div>
     </div>
-    <button class='stringButton'>String</button>
-    <button class='noteButton'>Note</button>
-    <button class='bothButon'>Both</button>
   </section>
+  <button class='bothButton'>Find the note</button>
 </body>
 <script>
   const stringRandomizer = () => {
-
+    // This is disgusting code but kinda cool -- it is looking to grab the 'childString' element, if it's not there it does nothing
+    // but if it is there it uses the parentNode method to remove itself as a child. Kinda hideous but a clever use of DOM methods.
     const lastStringPick = document.querySelector('.childString') 
     if (lastStringPick && lastStringPick.parentNode) {
       lastStringPick.parentNode.removeChild(lastStringPick);
@@ -50,7 +67,7 @@
         break
       }
 
-    // DOM is disgusting sorry for this trash
+    // DOM is disgusting sorry again for this trash
     const stringDiv = document.querySelector('.string');
     const stringRenderValue = document.createElement('h3')
     stringRenderValue.innerText = stringPick
@@ -58,7 +75,52 @@
     stringDiv.appendChild(stringRenderValue);
   }
 
-    const stringButton = document.querySelector('.stringButton');
-    stringButton.onclick = stringRandomizer;
+  const noteRandomizer = () => {
+    const lastNotePick = document.querySelector('.childNote') 
+    if (lastNotePick && lastNotePick.parentNode) {
+      lastNotePick.parentNode.removeChild(lastNotePick);
+    }
+
+    const randomNumber = Math.floor(Math.random() * 7);
+    let notePick = null;
+
+    switch(randomNumber) {
+      case 0:
+        notePick = 'A';
+        break;
+      case 1: 
+        notePick = 'B';
+        break;
+      case 2:
+        notePick = 'C';
+        break;
+      case 3: 
+        notePick = 'D';
+        break; 
+      case 4: 
+        notePick = 'E';
+        break;
+      case 5: 
+        notePick = 'F';
+        break;
+      case 6: 
+        notePick = 'G';
+        break;
+      }
+
+    const noteDiv = document.querySelector('.note');
+    const noteRenderValue = document.createElement('h3')
+    noteRenderValue.innerText = notePick
+    noteRenderValue.classList.add('childNote')
+    noteDiv.appendChild(noteRenderValue);
+  }
+
+  const runRandomizer = () => {
+    stringRandomizer();
+    noteRandomizer();
+  }
+
+    const bothButton = document.querySelector('.bothButton');
+    bothButton.onclick = runRandomizer;
 </script>
 </html>
