@@ -4,18 +4,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script>
-    
-  </script>
 </head>
 <body>
   <section>
-    <div id='string'>
-      <h2>String</h2>
+    <h2>String</h2>
+    <div class='string'>
     </div>
-    <div id='note'>
+    <div class='note'>
       <h2>Note</h2>
     </div>
+    <button class='stringButton'>String</button>
+    <button class='noteButton'>Note</button>
+    <button class='bothButon'>Both</button>
   </section>
 </body>
+<script>
+  const stringRandomizer = () => {
+
+    const lastStringPick = document.querySelector('.childString') 
+    if (lastStringPick && lastStringPick.parentNode) {
+      lastStringPick.parentNode.removeChild(lastStringPick);
+    }
+    
+    const randomNumber = Math.floor(Math.random() * 6);
+    let stringPick = null;
+
+    switch(randomNumber) {
+      case 0:
+        stringPick = 'Low E string';
+        break;
+      case 1: 
+        stringPick = 'A string';
+        break;
+      case 2:
+        stringPick = 'D string';
+        break;
+      case 3: 
+        stringPick = 'G string';
+        break; 
+      case 4: 
+        stringPick = 'B string';
+        break;
+      case 5: 
+        stringPick = 'High E string'
+        break
+      }
+
+    // DOM is disgusting sorry for this trash
+    const stringDiv = document.querySelector('.string');
+    const stringRenderValue = document.createElement('h3')
+    stringRenderValue.innerText = stringPick
+    stringRenderValue.classList.add('childString')
+    stringDiv.appendChild(stringRenderValue);
+  }
+
+    const stringButton = document.querySelector('.stringButton');
+    stringButton.onclick = stringRandomizer;
+</script>
 </html>
