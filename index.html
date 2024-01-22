@@ -7,7 +7,8 @@
   <style> 
     section {
       display:flex;
-      justify-content: space-evenly;
+      align-items: center;
+      flex-direction: column;
     }
     button {
       display:block;
@@ -17,18 +18,41 @@
     .childString, .childNote { 
       font-size: 5rem;
     }
+
+    .mainView {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+    }
   </style>
 </head>
 <body>
   <section>
-    <div class='container'>
-      <h2>String</h2>
-      <div class='string'>
+    <form id='stringSelector'>
+      <label for='lowEString'>Low E String</label>
+      <input type="checkbox" name='lowEString' id='lowEString'>
+      <label for='aString'>A String</label>
+      <input type="checkbox" name='aString' id='aString'>
+      <label for='dString'>D String</label>
+      <input type="checkbox" name='dString' id='dString'>
+      <label for="gString">G String</label>
+      <input type="checkbox" name='gString' id='gString'>
+      <label for='bString'>B String</label>
+      <input type="checkbox" name='bString' id='bString' class='bString'>
+      <label for="highEString">High E String</label>
+      <input type="checkbox" name='highEString' id='highEString' class='highEString'>
+    </form>
+    
+    <div class='mainView'>
+      <div class='container'>
+        <h2>String</h2>
+        <div class='string'>
+        </div>
       </div>
-    </div>
-    <div class='container'>
-      <h2>Note</h2>
-      <div class='note'>
+      <div class='container'>
+        <h2>Note</h2>
+        <div class='note'>
+        </div>
       </div>
     </div>
   </section>
@@ -36,41 +60,45 @@
 </body>
 <script>
   const stringRandomizer = () => {
+    // Global constant of String Values
+    const STRING_OPTIONS = {
+      lowEString: 'Low E string',
+      aString: 'A string',
+      dString: 'D string',
+      gString: 'G string',
+      bString: 'B string',
+      highEString: 'High E string',
+    }
+
+    const form = document.querySelector('#stringSelector')
+    const formData = new FormData(form);
+
+    // Loops through form data and pushes selected values to an array
+    const restrictedStrings = [];
+    for (const [key, _value] of formData) {
+	    restrictedStrings.push(key)
+    }
+
+    // Create array of the Guitar String constant keys and 
+    // check the form data to filter out Guitar String values not needed 
+    const keyArray = Object.keys(STRING_OPTIONS)
+    const usableValues = keyArray.filter((string) => {
+      return !restrictedStrings.includes(string)
+    })
+
     // This is disgusting code but kinda cool -- it is looking to grab the 'childString' element, if it's not there it does nothing
     // but if it is there it uses the parentNode method to remove itself as a child. Kinda hideous but a clever use of DOM methods.
     const lastStringPick = document.querySelector('.childString') 
     if (lastStringPick && lastStringPick.parentNode) {
       lastStringPick.parentNode.removeChild(lastStringPick);
     }
-    
-    const randomNumber = Math.floor(Math.random() * 6);
-    let stringPick = null;
 
-    switch(randomNumber) {
-      case 0:
-        stringPick = 'Low E string';
-        break;
-      case 1: 
-        stringPick = 'A string';
-        break;
-      case 2:
-        stringPick = 'D string';
-        break;
-      case 3: 
-        stringPick = 'G string';
-        break; 
-      case 4: 
-        stringPick = 'B string';
-        break;
-      case 5: 
-        stringPick = 'High E string'
-        break
-      }
+    const randomNumber = Math.floor(Math.random() * (usableValues.length > 0 ? usableValues.length : 6));
 
     // DOM is disgusting sorry again for this trash
     const stringDiv = document.querySelector('.string');
     const stringRenderValue = document.createElement('h3')
-    stringRenderValue.innerText = stringPick
+    stringRenderValue.innerText = STRING_OPTIONS[usableValues[randomNumber]];
     stringRenderValue.classList.add('childString')
     stringDiv.appendChild(stringRenderValue);
   }
