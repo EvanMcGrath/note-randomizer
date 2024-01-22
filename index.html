@@ -62,13 +62,6 @@
   const stringRandomizer = () => {
 
     // Wanted to add an input so that the user can remove certain strings as options from the randomizer
-    const form = document.querySelector('#stringSelector')
-    const formData = new FormData(form);
-
-    // for (const entry of formData) {
-	  //   console.log(entry);
-    // }
-
     const STRING_OPTIONS = {
       lowEString: 'Low E string',
       aString: 'A string',
@@ -78,8 +71,18 @@
       highEString: 'High E string',
     }
 
-    const valueArray = Object.values(STRING_OPTIONS)
-    const usableValues = valueArray.filter((string) => !data.includes(string))
+    const form = document.querySelector('#stringSelector')
+    const formData = new FormData(form);
+
+    const restrictedStrings = [];
+    for (const [key, _value] of formData) {
+	    restrictedStrings.push(key)
+    }
+
+    const keyArray = Object.keys(STRING_OPTIONS)
+    const usableValues = keyArray.filter((string) => {
+      return !restrictedStrings.includes(string)
+    })
 
     // This is disgusting code but kinda cool -- it is looking to grab the 'childString' element, if it's not there it does nothing
     // but if it is there it uses the parentNode method to remove itself as a child. Kinda hideous but a clever use of DOM methods.
@@ -87,35 +90,13 @@
     if (lastStringPick && lastStringPick.parentNode) {
       lastStringPick.parentNode.removeChild(lastStringPick);
     }
-    
-    const randomNumber = Math.floor(Math.random() * 6);
-    let stringPick = null;
 
-    switch(randomNumber) {
-      case 0:
-        stringPick = 'Low E string'
-        break;
-      case 1: 
-        stringPick = 'A string';
-        break;
-      case 2:
-        stringPick = 'D string';
-        break;
-      case 3: 
-        stringPick = 'G string';
-        break; 
-      case 4: 
-        stringPick = 'B string';
-        break;
-      case 5: 
-        stringPick = 'High E string'
-        break
-      }
+    const randomNumber = Math.floor(Math.random() * (usableValues.length > 0 ? usableValues.length : 6));
 
     // DOM is disgusting sorry again for this trash
     const stringDiv = document.querySelector('.string');
     const stringRenderValue = document.createElement('h3')
-    stringRenderValue.innerText = stringPick
+    stringRenderValue.innerText = STRING_OPTIONS[usableValues[randomNumber]];
     stringRenderValue.classList.add('childString')
     stringDiv.appendChild(stringRenderValue);
   }
