@@ -60,8 +60,7 @@
 </body>
 <script>
   const stringRandomizer = () => {
-
-    // Wanted to add an input so that the user can remove certain strings as options from the randomizer
+    // Global constant of String Values
     const STRING_OPTIONS = {
       lowEString: 'Low E string',
       aString: 'A string',
@@ -74,11 +73,14 @@
     const form = document.querySelector('#stringSelector')
     const formData = new FormData(form);
 
+    // Loops through form data and pushes selected values to an array
     const restrictedStrings = [];
     for (const [key, _value] of formData) {
 	    restrictedStrings.push(key)
     }
 
+    // Create array of the Guitar String constant keys and 
+    // check the form data to filter out Guitar String values not needed 
     const keyArray = Object.keys(STRING_OPTIONS)
     const usableValues = keyArray.filter((string) => {
       return !restrictedStrings.includes(string)
