@@ -7,7 +7,8 @@
   <style> 
     section {
       display:flex;
-      justify-content: space-evenly;
+      align-items: center;
+      flex-direction: column;
     }
     button {
       display:block;
@@ -17,18 +18,41 @@
     .childString, .childNote { 
       font-size: 5rem;
     }
+
+    .mainView {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+    }
   </style>
 </head>
 <body>
   <section>
-    <div class='container'>
-      <h2>String</h2>
-      <div class='string'>
+    <form id='stringSelector'>
+      <label for='lowEString'>Low E String</label>
+      <input type="checkbox" name='lowEString' id='lowEString'>
+      <label for='aString'>A String</label>
+      <input type="checkbox" name='aString' id='aString'>
+      <label for='dString'>D String</label>
+      <input type="checkbox" name='dString' id='dString'>
+      <label for="gString">G String</label>
+      <input type="checkbox" name='gString' id='gString'>
+      <label for='bString'>B String</label>
+      <input type="checkbox" name='bString' id='bString' class='bString'>
+      <label for="highEString">High E String</label>
+      <input type="checkbox" name='highEString' id='highEString' class='highEString'>
+    </form>
+    
+    <div class='mainView'>
+      <div class='container'>
+        <h2>String</h2>
+        <div class='string'>
+        </div>
       </div>
-    </div>
-    <div class='container'>
-      <h2>Note</h2>
-      <div class='note'>
+      <div class='container'>
+        <h2>Note</h2>
+        <div class='note'>
+        </div>
       </div>
     </div>
   </section>
@@ -36,6 +60,27 @@
 </body>
 <script>
   const stringRandomizer = () => {
+
+    // Wanted to add an input so that the user can remove certain strings as options from the randomizer
+    const form = document.querySelector('#stringSelector')
+    const formData = new FormData(form);
+
+    // for (const entry of formData) {
+	  //   console.log(entry);
+    // }
+
+    const STRING_OPTIONS = {
+      lowEString: 'Low E string',
+      aString: 'A string',
+      dString: 'D string',
+      gString: 'G string',
+      bString: 'B string',
+      highEString: 'High E string',
+    }
+
+    const valueArray = Object.values(STRING_OPTIONS)
+    const usableValues = valueArray.filter((string) => !data.includes(string))
+
     // This is disgusting code but kinda cool -- it is looking to grab the 'childString' element, if it's not there it does nothing
     // but if it is there it uses the parentNode method to remove itself as a child. Kinda hideous but a clever use of DOM methods.
     const lastStringPick = document.querySelector('.childString') 
@@ -48,7 +93,7 @@
 
     switch(randomNumber) {
       case 0:
-        stringPick = 'Low E string';
+        stringPick = 'Low E string'
         break;
       case 1: 
         stringPick = 'A string';
