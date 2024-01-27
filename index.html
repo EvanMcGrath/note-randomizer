@@ -4,7 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <style> 
+  <style>
+    * {
+      background-color: black;
+      color:antiquewhite;
+    }
+  
     section {
       display:flex;
       align-items: center;
@@ -24,23 +29,49 @@
       display: flex;
       justify-content: space-evenly;
     }
+    
+    #lightningRound {
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      gap: 1rem;
+    }
+
+    .setTimer, .stopTimer {
+      margin: 0;
+      display: inline;
+    }
   </style>
 </head>
 <body>
   <section>
+    <h3>Remove a string:</h3>
     <form id='stringSelector'>
-      <label for='lowEString'>Low E String</label>
-      <input type="checkbox" name='lowEString' id='lowEString'>
-      <label for='aString'>A String</label>
-      <input type="checkbox" name='aString' id='aString'>
-      <label for='dString'>D String</label>
-      <input type="checkbox" name='dString' id='dString'>
-      <label for="gString">G String</label>
-      <input type="checkbox" name='gString' id='gString'>
-      <label for='bString'>B String</label>
-      <input type="checkbox" name='bString' id='bString' class='bString'>
-      <label for="highEString">High E String</label>
-      <input type="checkbox" name='highEString' id='highEString' class='highEString'>
+      <div>
+        <input type="checkbox" name='lowEString' id='lowEString'>
+        <label for='lowEString'>Low E String</label>
+      </div>
+      <div>
+        <input type="checkbox" name='aString' id='aString'>
+        <label for='aString'>A String</label>
+      </div>
+      <div>
+        <input type="checkbox" name='dString' id='dString'>
+        <label for='dString'>D String</label>
+      </div>
+      <div>
+        <input type="checkbox" name='gString' id='gString'>
+        <label for="gString">G String</label>
+      </div>
+      <div>
+        <input type="checkbox" name='bString' id='bString' class='bString'>
+        <label for='bString'>B String</label>
+      </div>
+      <div>
+        <input type="checkbox" name='highEString' id='highEString' class='highEString'>
+        <label for="highEString">High E String</label>
+      </div>
     </form>
     
     <div class='mainView'>
@@ -57,16 +88,10 @@
     </div>
   </section>
   <button class='bothButton'>Find the note</button>
-  <form>
-    <select>
-      <option>...</option>
-      <option value="5">5 seconds</option>
-      <option value='10'>10 seconds</option>
-      <option value="15">15 seconds</option>
-    </select>
-    <button>Set Timer</button>
-    <button>Stop Timer</button>
-  </form>
+  <div id='lightningRound'>
+    <button class='setTimer' type='button' onclick>⚡⚡⚡</button>
+    <button class='stopTimer' type='button'>End</button>
+  </div>
 </body>
 <script>
   const stringRandomizer = () => {
@@ -158,7 +183,22 @@
     noteRandomizer();
   }
 
-    const bothButton = document.querySelector('.bothButton');
-    bothButton.onclick = runRandomizer;
+  const bothButton = document.querySelector('.bothButton');
+  bothButton.onclick = runRandomizer;
+
+  const runTimer = () => {
+    document.querySelector('.setTimer').disabled = true;
+
+    const myInterval = setInterval(runRandomizer, 3000);
+    
+    const endTimer = document.querySelector('.stopTimer');
+    endTimer.addEventListener("click", () => {
+      document.querySelector('.setTimer').disabled = false; 
+      clearInterval(myInterval) 
+    })
+  }
+
+  const setTimer = document.querySelector('.setTimer');
+  setTimer.onclick = runTimer;
 </script>
 </html>
